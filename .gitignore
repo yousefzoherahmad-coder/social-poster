@@ -162,8 +162,7 @@ config.json
 # Platform uploads
 uploads/
 
-# Dashboard build output
-dashboard/dist/
+# Dashboard dependencies (not the build — dist is committed for Replit)
 dashboard/node_modules/
 
 # Screenshots and debug files

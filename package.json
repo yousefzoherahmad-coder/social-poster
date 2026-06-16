@@ -41,7 +41,8 @@
     "prepare": "husky",
     "start": "node server.js",
     "dev": "concurrently \"node server.js\" \"cd dashboard && npm run dev\"",
-    "build:dashboard": "cd dashboard && npm install && npm run build",
+    "build:dashboard": "cd dashboard && npm install && node ../scripts/fix-dashboard-deps.js && npm run build",
+    "fix:deps": "node scripts/fix-dashboard-deps.js",
     "db:migrate": "node db/migrate.js"
   },
   "bin": {
