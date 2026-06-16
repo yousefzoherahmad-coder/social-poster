@@ -14,9 +14,15 @@ RUN pnpm install --frozen-lockfile --ignore-scripts
 
 # ── Dashboard build ───────────────────────────────────────────
 FROM base AS dashboard-build
-COPY dashboard/package.json dashboard/
+WORKDIR /app
+COPY package.json ./
+COPY scripts/fix-dashboard-deps.js ./scripts/
+COPY dashboard/package.json dashboard/package-lock.json* dashboard/
 WORKDIR /app/dashboard
 RUN npm install
+WORKDIR /app
+RUN node scripts/fix-dashboard-deps.js
+WORKDIR /app/dashboard
 COPY dashboard/ .
 RUN npm run build
 

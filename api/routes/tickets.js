@@ -21,6 +21,31 @@ router.get('/', async (req, res) => {
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
+router.post('/', async (req, res) => {
+  try {
+    const { subject, message, priority = 'normal', user_id = null } = req.body;
+    if (!subject || !message) return res.status(400).json({ error: 'Subject and message required' });
+    const ticketRes = await query(
+      'INSERT INTO tickets (user_id, subject, status, priority, assigned_to) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [user_id, subject, 'open', priority, req.admin.id]
+    );
+    const ticket = ticketRes.rows[0];
+    await query(
+      'INSERT INTO ticket_messages (ticket_id, sender_type, sender_id, message) VALUES ($1, $2, $3, $4)',
+      [ticket.id, 'admin', req.admin.id, message]
+    );
+    res.status(201).json({ ticket });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const { rows } = await query('DELETE FROM tickets WHERE id = $1 RETURNING id', [req.params.id]);
+    if (!rows[0]) return res.status(404).json({ error: 'Ticket not found' });
+    res.json({ message: 'Ticket deleted' });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
 router.get('/:id', async (req, res) => {
   try {
     const { rows } = await query('SELECT t.*, u.username, u.first_name, u.telegram_id FROM tickets t LEFT JOIN users u ON u.id = t.user_id WHERE t.id = $1', [req.params.id]);
