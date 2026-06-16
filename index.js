@@ -3,6 +3,29 @@
  * Social media posting tool with Puppeteer-based authentication
  */
 
+import {
+  getConfigPath,
+  getDefaultConfig,
+  validateConfig,
+  loadConfig,
+  saveConfig,
+  mergeConfig,
+  getConfigValue,
+  setConfigValue,
+  isPlatformReady,
+  getReadyPlatforms,
+  getPlatformDisplayName,
+} from './src/config-manager.js';
+
+import {
+  BrowserAutomation,
+  SessionManager,
+  loadSessions,
+  saveSessions,
+  validateSession,
+  getSessionsPath,
+} from './src/browser-automation.js';
+
 // Core modules
 export {
   getConfigPath,

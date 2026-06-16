@@ -124,5 +124,11 @@
     "./platforms/pinterest": {
       "import": "./src/platforms/pinterest.js"
     }
+  },
+  "pnpm": {
+    "overrides": {
+      "form-data": "file:/tmp/local-form-data",
+      "basic-ftp": "file:/tmp/local-basic-ftp/package"
+    }
   }
 }
