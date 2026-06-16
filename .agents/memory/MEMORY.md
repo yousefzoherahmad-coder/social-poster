@@ -1,0 +1,3 @@
+- [Platform architecture](platform-arch.md) — full-stack on port 5000: Express API + React dashboard (built static) + Telegraf bot + pg + node-cron, all one process
+- [Blocked packages workaround](blocked-packages.md) — form-data and basic-ftp must be re-downloaded to /tmp on every env restart before pnpm install
+- [Admin credentials](admin-creds.md) — default login admin/admin123; bcrypt hash lives in db/schema.sql and must match; update via DB query not just schema
